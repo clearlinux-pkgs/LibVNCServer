@@ -4,7 +4,7 @@
 #
 Name     : LibVNCServer
 Version  : 0.9.11
-Release  : 5
+Release  : 6
 URL      : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.11.tar.gz
 Source0  : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.11.tar.gz
 Summary  : A library for easy implementation of a VNC server.
