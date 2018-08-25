@@ -4,7 +4,7 @@
 #
 Name     : LibVNCServer
 Version  : 0.9.11
-Release  : 7
+Release  : 8
 URL      : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.11.tar.gz
 Source0  : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.11.tar.gz
 Summary  : A library for easy implementation of a VNC server.
@@ -12,13 +12,23 @@ Group    : Development/Tools
 License  : GPL-2.0 MPL-2.0
 Requires: LibVNCServer-bin
 Requires: LibVNCServer-lib
+Requires: LibVNCServer-license
+BuildRequires : SDL-dev
+BuildRequires : glibc-dev
+BuildRequires : gnutls-dev
+BuildRequires : libX11-dev libICE-dev libSM-dev libXau-dev libXcomposite-dev libXcursor-dev libXdamage-dev libXdmcp-dev libXext-dev libXfixes-dev libXft-dev libXi-dev libXinerama-dev libXi-dev libXmu-dev libXpm-dev libXrandr-dev libXrender-dev libXres-dev libXScrnSaver-dev libXt-dev libXtst-dev libXv-dev libXxf86misc-dev libXxf86vm-dev
 BuildRequires : libgcrypt-dev
 BuildRequires : libgpg-error-dev
 BuildRequires : libjpeg-turbo-dev
+BuildRequires : libpng-dev
 BuildRequires : openssl-dev
+BuildRequires : pkg-config
 BuildRequires : pkgconfig(gnutls)
 BuildRequires : pkgconfig(gtk+-2.0)
 BuildRequires : pkgconfig(libsystemd)
+BuildRequires : zlib-dev
+Patch1: cve-2018-7225.patch
+Patch2: cve-2018-7225-2.patch
 
 %description
 [![Build Status](https://travis-ci.org/LibVNC/libvncserver.svg?branch=master)](https://travis-ci.org/LibVNC/libvncserver)
@@ -26,6 +36,7 @@ BuildRequires : pkgconfig(libsystemd)
 %package bin
 Summary: bin components for the LibVNCServer package.
 Group: Binaries
+Requires: LibVNCServer-license
 
 %description bin
 bin components for the LibVNCServer package.
@@ -45,29 +56,51 @@ dev components for the LibVNCServer package.
 %package lib
 Summary: lib components for the LibVNCServer package.
 Group: Libraries
+Requires: LibVNCServer-license
 
 %description lib
 lib components for the LibVNCServer package.
 
 
+%package license
+Summary: license components for the LibVNCServer package.
+Group: Default
+
+%description license
+license components for the LibVNCServer package.
+
+
 %prep
 %setup -q -n libvncserver-LibVNCServer-0.9.11
+%patch1 -p1
+%patch2 -p1
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1483217269
+export SOURCE_DATE_EPOCH=1535172961
+export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 %autogen --disable-static
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 
 %check
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
+export SOURCE_DATE_EPOCH=1535172961
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/doc/LibVNCServer
+cp COPYING %{buildroot}/usr/share/doc/LibVNCServer/COPYING
+cp webclients/novnc/LICENSE.txt %{buildroot}/usr/share/doc/LibVNCServer/webclients_novnc_LICENSE.txt
 %make_install
 
 %files
@@ -96,3 +129,8 @@ rm -rf %{buildroot}
 /usr/lib64/libvncclient.so.1.0.0
 /usr/lib64/libvncserver.so.1
 /usr/lib64/libvncserver.so.1.0.0
+
+%files license
+%defattr(-,root,root,-)
+/usr/share/doc/LibVNCServer/COPYING
+/usr/share/doc/LibVNCServer/webclients_novnc_LICENSE.txt

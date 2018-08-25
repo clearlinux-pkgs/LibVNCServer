@@ -1,0 +1,32 @@
+Configure miss: __b64_ntop
+Configure miss: thenonexistentheader.h usability
+Configure miss: thenonexistentheader.h presence
+Configure miss: thenonexistentheader.h
+Configure miss: crypt
+Configure miss: x86_64-generic-linux-gnu-libgcrypt-config
+Configure miss: ws2tcpip.h usability
+Configure miss: ws2tcpip.h presence
+Configure miss: ws2tcpip.h
+Configure miss: shmget in -lcygipc
+Configure miss: ApplicationServices/ApplicationServices.h usability
+Configure miss: ApplicationServices/ApplicationServices.h presence
+Configure miss: ApplicationServices/ApplicationServices.h
+Configure miss: android/api-level.h usability
+Configure miss: android/api-level.h presence
+Configure miss: android/api-level.h
+Configure miss: __b64_ntop
+Configure miss: thenonexistentheader.h usability
+Configure miss: thenonexistentheader.h presence
+Configure miss: thenonexistentheader.h
+Configure miss: crypt
+Configure miss: x86_64-generic-linux-gnu-libgcrypt-config
+Configure miss: ws2tcpip.h usability
+Configure miss: ws2tcpip.h presence
+Configure miss: ws2tcpip.h
+Configure miss: shmget in -lcygipc
+Configure miss: ApplicationServices/ApplicationServices.h usability
+Configure miss: ApplicationServices/ApplicationServices.h presence
+Configure miss: ApplicationServices/ApplicationServices.h
+Configure miss: android/api-level.h usability
+Configure miss: android/api-level.h presence
+Configure miss: android/api-level.h
