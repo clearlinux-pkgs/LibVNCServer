@@ -1,0 +1,11 @@
+--- libvncserver-LibVNCServer-0.9.11/libvncserver/zrleoutstream.c~	2016-12-30 13:01:28.000000000 +0000
++++ libvncserver-LibVNCServer-0.9.11/libvncserver/zrleoutstream.c	2018-08-26 23:02:36.462223668 +0000
+@@ -85,7 +85,7 @@
+   os->zs.zalloc = Z_NULL;
+   os->zs.zfree  = Z_NULL;
+   os->zs.opaque = Z_NULL;
+-  if (deflateInit(&os->zs, Z_DEFAULT_COMPRESSION) != Z_OK) {
++  if (deflateInit(&os->zs, Z_BEST_COMPRESSION) != Z_OK) {
+     zrleBufferFree(&os->in);
+     free(os);
+     return NULL;

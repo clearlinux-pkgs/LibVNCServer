@@ -4,7 +4,7 @@
 #
 Name     : LibVNCServer
 Version  : 0.9.11
-Release  : 8
+Release  : 9
 URL      : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.11.tar.gz
 Source0  : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.11.tar.gz
 Summary  : A library for easy implementation of a VNC server.
@@ -29,6 +29,7 @@ BuildRequires : pkgconfig(libsystemd)
 BuildRequires : zlib-dev
 Patch1: cve-2018-7225.patch
 Patch2: cve-2018-7225-2.patch
+Patch3: max-zlib-level.patch
 
 %description
 [![Build Status](https://travis-ci.org/LibVNC/libvncserver.svg?branch=master)](https://travis-ci.org/LibVNC/libvncserver)
@@ -74,17 +75,18 @@ license components for the LibVNCServer package.
 %setup -q -n libvncserver-LibVNCServer-0.9.11
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1535172961
-export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export SOURCE_DATE_EPOCH=1535324685
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 %autogen --disable-static
 make  %{?_smp_mflags}
 
@@ -96,7 +98,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1535172961
+export SOURCE_DATE_EPOCH=1535324685
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/LibVNCServer
 cp COPYING %{buildroot}/usr/share/doc/LibVNCServer/COPYING
