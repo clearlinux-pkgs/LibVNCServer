@@ -4,29 +4,22 @@
 #
 Name     : LibVNCServer
 Version  : 0.9.11
-Release  : 10
+Release  : 11
 URL      : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.11.tar.gz
 Source0  : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.11.tar.gz
 Summary  : A library for easy implementation of a VNC server.
 Group    : Development/Tools
 License  : GPL-2.0 MPL-2.0
-Requires: LibVNCServer-bin
-Requires: LibVNCServer-lib
-Requires: LibVNCServer-license
-BuildRequires : SDL-dev
-BuildRequires : glibc-dev
-BuildRequires : gnutls-dev
-BuildRequires : libX11-dev libICE-dev libSM-dev libXau-dev libXcomposite-dev libXcursor-dev libXdamage-dev libXdmcp-dev libXext-dev libXfixes-dev libXft-dev libXi-dev libXinerama-dev libXi-dev libXmu-dev libXpm-dev libXrandr-dev libXrender-dev libXres-dev libXScrnSaver-dev libXt-dev libXtst-dev libXv-dev libXxf86misc-dev libXxf86vm-dev
+Requires: LibVNCServer-bin = %{version}-%{release}
+Requires: LibVNCServer-lib = %{version}-%{release}
+Requires: LibVNCServer-license = %{version}-%{release}
 BuildRequires : libgcrypt-dev
 BuildRequires : libgpg-error-dev
 BuildRequires : libjpeg-turbo-dev
-BuildRequires : libpng-dev
 BuildRequires : openssl-dev
-BuildRequires : pkg-config
 BuildRequires : pkgconfig(gnutls)
 BuildRequires : pkgconfig(gtk+-2.0)
 BuildRequires : pkgconfig(libsystemd)
-BuildRequires : zlib-dev
 Patch1: cve-2018-7225.patch
 Patch2: cve-2018-7225-2.patch
 Patch3: max-zlib-level.patch
@@ -37,7 +30,7 @@ Patch3: max-zlib-level.patch
 %package bin
 Summary: bin components for the LibVNCServer package.
 Group: Binaries
-Requires: LibVNCServer-license
+Requires: LibVNCServer-license = %{version}-%{release}
 
 %description bin
 bin components for the LibVNCServer package.
@@ -46,9 +39,9 @@ bin components for the LibVNCServer package.
 %package dev
 Summary: dev components for the LibVNCServer package.
 Group: Development
-Requires: LibVNCServer-lib
-Requires: LibVNCServer-bin
-Provides: LibVNCServer-devel
+Requires: LibVNCServer-lib = %{version}-%{release}
+Requires: LibVNCServer-bin = %{version}-%{release}
+Provides: LibVNCServer-devel = %{version}-%{release}
 
 %description dev
 dev components for the LibVNCServer package.
@@ -57,7 +50,7 @@ dev components for the LibVNCServer package.
 %package lib
 Summary: lib components for the LibVNCServer package.
 Group: Libraries
-Requires: LibVNCServer-license
+Requires: LibVNCServer-license = %{version}-%{release}
 
 %description lib
 lib components for the LibVNCServer package.
@@ -82,7 +75,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1535324685
+export SOURCE_DATE_EPOCH=1542404732
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -98,11 +91,11 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1535324685
+export SOURCE_DATE_EPOCH=1542404732
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/LibVNCServer
-cp COPYING %{buildroot}/usr/share/doc/LibVNCServer/COPYING
-cp webclients/novnc/LICENSE.txt %{buildroot}/usr/share/doc/LibVNCServer/webclients_novnc_LICENSE.txt
+mkdir -p %{buildroot}/usr/share/package-licenses/LibVNCServer
+cp COPYING %{buildroot}/usr/share/package-licenses/LibVNCServer/COPYING
+cp webclients/novnc/LICENSE.txt %{buildroot}/usr/share/package-licenses/LibVNCServer/webclients_novnc_LICENSE.txt
 %make_install
 
 %files
@@ -133,6 +126,6 @@ cp webclients/novnc/LICENSE.txt %{buildroot}/usr/share/doc/LibVNCServer/webclien
 /usr/lib64/libvncserver.so.1.0.0
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/LibVNCServer/COPYING
-/usr/share/doc/LibVNCServer/webclients_novnc_LICENSE.txt
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/LibVNCServer/COPYING
+/usr/share/package-licenses/LibVNCServer/webclients_novnc_LICENSE.txt

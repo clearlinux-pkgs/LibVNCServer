@@ -3,6 +3,7 @@ Configure miss: thenonexistentheader.h usability
 Configure miss: thenonexistentheader.h presence
 Configure miss: thenonexistentheader.h
 Configure miss: crypt
+Configure miss: SSL_library_init in -lssl
 Configure miss: x86_64-generic-linux-gnu-libgcrypt-config
 Configure miss: ws2tcpip.h usability
 Configure miss: ws2tcpip.h presence
@@ -19,6 +20,7 @@ Configure miss: thenonexistentheader.h usability
 Configure miss: thenonexistentheader.h presence
 Configure miss: thenonexistentheader.h
 Configure miss: crypt
+Configure miss: SSL_library_init in -lssl
 Configure miss: x86_64-generic-linux-gnu-libgcrypt-config
 Configure miss: ws2tcpip.h usability
 Configure miss: ws2tcpip.h presence
