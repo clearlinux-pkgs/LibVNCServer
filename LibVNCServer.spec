@@ -4,7 +4,7 @@
 #
 Name     : LibVNCServer
 Version  : 0.9.11
-Release  : 11
+Release  : 12
 URL      : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.11.tar.gz
 Source0  : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.11.tar.gz
 Summary  : A library for easy implementation of a VNC server.
@@ -23,6 +23,14 @@ BuildRequires : pkgconfig(libsystemd)
 Patch1: cve-2018-7225.patch
 Patch2: cve-2018-7225-2.patch
 Patch3: max-zlib-level.patch
+Patch4: CVE-2018-6307.patch
+Patch5: CVE-2018-15127.patch
+Patch6: CVE-2018-20019.patch
+Patch7: CVE-2018-20020.patch
+Patch8: CVE-2018-20021.patch
+Patch9: CVE-2018-20022.patch
+Patch10: CVE-2018-20023.patch
+Patch11: CVE-2018-20024.patch
 
 %description
 [![Build Status](https://travis-ci.org/LibVNC/libvncserver.svg?branch=master)](https://travis-ci.org/LibVNC/libvncserver)
@@ -69,13 +77,21 @@ license components for the LibVNCServer package.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
+%patch10 -p1
+%patch11 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1542404732
+export SOURCE_DATE_EPOCH=1545341728
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -91,7 +107,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1542404732
+export SOURCE_DATE_EPOCH=1545341728
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/LibVNCServer
 cp COPYING %{buildroot}/usr/share/package-licenses/LibVNCServer/COPYING

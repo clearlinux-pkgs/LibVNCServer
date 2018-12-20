@@ -1,3 +1,11 @@
 cve-2018-7225.patch
 cve-2018-7225-2.patch
 max-zlib-level.patch
+CVE-2018-6307.patch
+CVE-2018-15127.patch
+CVE-2018-20019.patch
+CVE-2018-20020.patch
+CVE-2018-20021.patch
+CVE-2018-20022.patch
+CVE-2018-20023.patch
+CVE-2018-20024.patch
