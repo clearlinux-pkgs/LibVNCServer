@@ -5,6 +5,5 @@ libgnutls.so.30
 libjpeg.so.62
 libpng16.so.16
 libpthread.so.0
-libresolv.so.2
 libsystemd.so.0
 libz.so.1

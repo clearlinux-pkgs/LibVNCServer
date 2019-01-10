@@ -40,6 +40,7 @@ libvncclient.so.1:SetServer2Client
 libvncclient.so.1:StringToIPAddr
 libvncclient.so.1:SupportsClient2Server
 libvncclient.so.1:SupportsServer2Client
+libvncclient.so.1:TJBUFSIZE
 libvncclient.so.1:TextChatClose
 libvncclient.so.1:TextChatFinish
 libvncclient.so.1:TextChatOpen
@@ -67,7 +68,6 @@ libvncclient.so.1:lzo_memset
 libvncclient.so.1:lzo_version
 libvncclient.so.1:lzo_version_date
 libvncclient.so.1:lzo_version_string
-libvncclient.so.1:rfbClientCPKey
 libvncclient.so.1:rfbClientCleanup
 libvncclient.so.1:rfbClientDes
 libvncclient.so.1:rfbClientDesKey
@@ -80,13 +80,26 @@ libvncclient.so.1:rfbClientUseKey
 libvncclient.so.1:rfbGetClient
 libvncclient.so.1:rfbHandleAuthResult
 libvncclient.so.1:rfbInitClient
+libvncclient.so.1:tjBufSize
+libvncclient.so.1:tjCompress
+libvncclient.so.1:tjCompress2
+libvncclient.so.1:tjDecompress
+libvncclient.so.1:tjDecompress2
+libvncclient.so.1:tjDecompressHeader
+libvncclient.so.1:tjDecompressHeader2
+libvncclient.so.1:tjDestroy
+libvncclient.so.1:tjGetErrorStr
+libvncclient.so.1:tjGetScalingFactors
+libvncclient.so.1:tjInitCompress
+libvncclient.so.1:tjInitDecompress
 libvncclient.so.1:zywrleSynthesize16LE
 libvncclient.so.1:zywrleSynthesize32LE
 libvncserver.so.1:AddFileListItemInfo
 libvncserver.so.1:ChkFileDownloadErr
 libvncserver.so.1:ChkFileUploadErr
 libvncserver.so.1:ChkFileUploadWriteErr
-libvncserver.so.1:CloseUndoneFileTransfer
+libvncserver.so.1:CloseUndoneFileDownload
+libvncserver.so.1:CloseUndoneFileUpload
 libvncserver.so.1:ConvertPath
 libvncserver.so.1:CreateDirectory
 libvncserver.so.1:CreateFileDownloadBlockSizeDataMsg
@@ -136,6 +149,8 @@ libvncserver.so.1:SendFileDownloadLengthErrMsg
 libvncserver.so.1:SendFileUploadLengthErrMsg
 libvncserver.so.1:SetFtpRoot
 libvncserver.so.1:TJBUFSIZE
+libvncserver.so.1:__b64_ntop
+libvncserver.so.1:__b64_pton
 libvncserver.so.1:__lzo_align_gap
 libvncserver.so.1:__lzo_init_v2
 libvncserver.so.1:__lzo_ptr_linear
@@ -145,6 +160,7 @@ libvncserver.so.1:_lzo_version_string
 libvncserver.so.1:digestmd5
 libvncserver.so.1:digestsha1
 libvncserver.so.1:encodingName
+libvncserver.so.1:hybiDecodeCleanupComplete
 libvncserver.so.1:lzo1x_1_compress
 libvncserver.so.1:lzo1x_decompress
 libvncserver.so.1:lzo1x_decompress_safe
@@ -161,7 +177,6 @@ libvncserver.so.1:messageNameClient2Server
 libvncserver.so.1:messageNameServer2Client
 libvncserver.so.1:rfbAuthNewClient
 libvncserver.so.1:rfbAuthProcessClientMessage
-libvncserver.so.1:rfbCPKey
 libvncserver.so.1:rfbCheckFds
 libvncserver.so.1:rfbCheckPasswordByList
 libvncserver.so.1:rfbClientConnFailed
@@ -275,6 +290,7 @@ libvncserver.so.1:rfbScheduleCopyRegion
 libvncserver.so.1:rfbScreenCleanup
 libvncserver.so.1:rfbSelectBox
 libvncserver.so.1:rfbSendBell
+libvncserver.so.1:rfbSendCompressedDataTight
 libvncserver.so.1:rfbSendCopyRegion
 libvncserver.so.1:rfbSendCursorPos
 libvncserver.so.1:rfbSendCursorShape
@@ -302,6 +318,7 @@ libvncserver.so.1:rfbSendSetColourMapEntries
 libvncserver.so.1:rfbSendSupportedEncodings
 libvncserver.so.1:rfbSendSupportedMessages
 libvncserver.so.1:rfbSendTextChatMessage
+libvncserver.so.1:rfbSendTightHeader
 libvncserver.so.1:rfbSendUpdateBuf
 libvncserver.so.1:rfbSendXvp
 libvncserver.so.1:rfbSetClientColourMap
@@ -394,8 +411,8 @@ libvncserver.so.1:tjInitDecompress
 libvncserver.so.1:webSocketCheckDisconnect
 libvncserver.so.1:webSocketsCheck
 libvncserver.so.1:webSocketsDecode
+libvncserver.so.1:webSocketsDecodeHybi
 libvncserver.so.1:webSocketsEncode
-libvncserver.so.1:webSocketsGenMd5
 libvncserver.so.1:webSocketsHasDataInBuffer
 libvncserver.so.1:zrleEncodeTile15BE
 libvncserver.so.1:zrleEncodeTile15LE
