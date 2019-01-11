@@ -4,7 +4,7 @@
 #
 Name     : LibVNCServer
 Version  : 0.9.12
-Release  : 13
+Release  : 14
 URL      : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.12.tar.gz
 Source0  : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.12.tar.gz
 Summary  : No detailed summary available
@@ -64,7 +64,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1547146433
+export SOURCE_DATE_EPOCH=1547246841
 mkdir -p clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -83,7 +83,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 cd clr-build; make test
 
 %install
-export SOURCE_DATE_EPOCH=1547146433
+export SOURCE_DATE_EPOCH=1547246841
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/LibVNCServer
 cp COPYING %{buildroot}/usr/share/package-licenses/LibVNCServer/COPYING
