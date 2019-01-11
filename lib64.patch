@@ -1,0 +1,39 @@
+--- a/CMakeLists.txt	2019-01-11 23:10:09.353153822 +0000
++++ b/CMakeLists.txt	2019-01-11 23:14:06.631153822 +0000
+@@ -9,6 +9,7 @@
+ include(TestBigEndian)
+ include(CheckCSourceCompiles)
+ include(CheckCSourceRuns)
++include(GNUInstallDirs)
+ 
+ enable_testing()
+ 
+@@ -666,18 +667,21 @@
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libvncclient.pc.cmakein ${CMAKE_CURRENT_BINARY_DIR}/libvncclient.pc @ONLY)
+ 
+ 
+-install_targets(/lib vncserver)
+-install_targets(/lib vncclient)
+-install_files(/include/rfb FILES
++install(TARGETS vncserver vncclient DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR})
++install(FILES
+     rfb/keysym.h
+     rfb/rfb.h
+     rfb/rfbclient.h
+-    rfb/rfbconfig.h
++    ${CMAKE_BINARY_DIR}/rfb/rfbconfig.h
+     rfb/rfbproto.h
+     rfb/rfbregion.h
++
++    DESTINATION ${CMAKE_INSTALL_FULL_INCLUDEDIR}/rfb
+ )
+ 
+-install_files(/lib/pkgconfig FILES
+-    libvncserver.pc
+-    libvncclient.pc
++install(FILES
++    ${CMAKE_BINARY_DIR}/libvncserver.pc
++    ${CMAKE_BINARY_DIR}/libvncclient.pc
++
++    DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/pkgconfig 
+ )

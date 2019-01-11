@@ -4,14 +4,14 @@
 #
 Name     : LibVNCServer
 Version  : 0.9.12
-Release  : 14
+Release  : 15
 URL      : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.12.tar.gz
 Source0  : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.12.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0 MIT
+Requires: LibVNCServer-lib = %{version}-%{release}
 Requires: LibVNCServer-license = %{version}-%{release}
-Requires: LibVNCServer-plugins = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : glibc-dev
 BuildRequires : gnutls-dev
@@ -24,6 +24,7 @@ BuildRequires : pkg-config
 BuildRequires : pkgconfig(libsystemd)
 BuildRequires : zlib-dev
 Patch1: max-zlib-level.patch
+Patch2: lib64.patch
 
 %description
 This directory contains a patched Java applet VNC viewer that is SSL
@@ -33,10 +34,20 @@ The patches in the *.patch files are relative to the source tarball:
 %package dev
 Summary: dev components for the LibVNCServer package.
 Group: Development
+Requires: LibVNCServer-lib = %{version}-%{release}
 Provides: LibVNCServer-devel = %{version}-%{release}
 
 %description dev
 dev components for the LibVNCServer package.
+
+
+%package lib
+Summary: lib components for the LibVNCServer package.
+Group: Libraries
+Requires: LibVNCServer-license = %{version}-%{release}
+
+%description lib
+lib components for the LibVNCServer package.
 
 
 %package license
@@ -47,24 +58,17 @@ Group: Default
 license components for the LibVNCServer package.
 
 
-%package plugins
-Summary: plugins components for the LibVNCServer package.
-Group: Default
-
-%description plugins
-plugins components for the LibVNCServer package.
-
-
 %prep
 %setup -q -n libvncserver-LibVNCServer-0.9.12
 %patch1 -p1
+%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1547246841
+export SOURCE_DATE_EPOCH=1547248609
 mkdir -p clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -83,7 +87,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 cd clr-build; make test
 
 %install
-export SOURCE_DATE_EPOCH=1547246841
+export SOURCE_DATE_EPOCH=1547248609
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/LibVNCServer
 cp COPYING %{buildroot}/usr/share/package-licenses/LibVNCServer/COPYING
@@ -103,19 +107,19 @@ popd
 /usr/include/rfb/rfbconfig.h
 /usr/include/rfb/rfbproto.h
 /usr/include/rfb/rfbregion.h
-/usr/lib/libvncclient.so
-/usr/lib/libvncserver.so
+/usr/lib64/libvncclient.so
+/usr/lib64/libvncserver.so
 /usr/lib64/pkgconfig/libvncclient.pc
 /usr/lib64/pkgconfig/libvncserver.pc
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib64/libvncclient.so.0.9.12
+/usr/lib64/libvncclient.so.1
+/usr/lib64/libvncserver.so.0.9.12
+/usr/lib64/libvncserver.so.1
 
 %files license
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/LibVNCServer/COPYING
 /usr/share/package-licenses/LibVNCServer/webclients_novnc_vendor_pako_LICENSE
-
-%files plugins
-%defattr(-,root,root,-)
-/usr/lib/libvncclient.so.0.9.12
-/usr/lib/libvncclient.so.1
-/usr/lib/libvncserver.so.0.9.12
-/usr/lib/libvncserver.so.1
