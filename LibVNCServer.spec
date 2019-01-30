@@ -4,7 +4,7 @@
 #
 Name     : LibVNCServer
 Version  : 0.9.12
-Release  : 15
+Release  : 16
 URL      : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.12.tar.gz
 Source0  : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.12.tar.gz
 Summary  : No detailed summary available
@@ -25,6 +25,7 @@ BuildRequires : pkgconfig(libsystemd)
 BuildRequires : zlib-dev
 Patch1: max-zlib-level.patch
 Patch2: lib64.patch
+Patch3: CVE-2018-20750.patch
 
 %description
 This directory contains a patched Java applet VNC viewer that is SSL
@@ -62,13 +63,14 @@ license components for the LibVNCServer package.
 %setup -q -n libvncserver-LibVNCServer-0.9.12
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1547248609
+export SOURCE_DATE_EPOCH=1548884279
 mkdir -p clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -87,7 +89,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 cd clr-build; make test
 
 %install
-export SOURCE_DATE_EPOCH=1547248609
+export SOURCE_DATE_EPOCH=1548884279
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/LibVNCServer
 cp COPYING %{buildroot}/usr/share/package-licenses/LibVNCServer/COPYING

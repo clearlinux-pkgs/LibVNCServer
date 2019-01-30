@@ -1,2 +1,3 @@
 max-zlib-level.patch
 lib64.patch
+CVE-2018-20750.patch
