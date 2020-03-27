@@ -4,7 +4,7 @@
 #
 Name     : LibVNCServer
 Version  : 0.9.12
-Release  : 16
+Release  : 17
 URL      : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.12.tar.gz
 Source0  : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.12.tar.gz
 Summary  : No detailed summary available
