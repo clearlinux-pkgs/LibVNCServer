@@ -4,7 +4,7 @@
 #
 Name     : LibVNCServer
 Version  : 0.9.12
-Release  : 17
+Release  : 18
 URL      : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.12.tar.gz
 Source0  : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.12.tar.gz
 Summary  : No detailed summary available
@@ -26,6 +26,7 @@ BuildRequires : zlib-dev
 Patch1: max-zlib-level.patch
 Patch2: lib64.patch
 Patch3: CVE-2018-20750.patch
+Patch4: CVE-2019-20788.patch
 
 %description
 This directory contains a patched Java applet VNC viewer that is SSL
@@ -37,6 +38,7 @@ Summary: dev components for the LibVNCServer package.
 Group: Development
 Requires: LibVNCServer-lib = %{version}-%{release}
 Provides: LibVNCServer-devel = %{version}-%{release}
+Requires: LibVNCServer = %{version}-%{release}
 
 %description dev
 dev components for the LibVNCServer package.
@@ -61,39 +63,42 @@ license components for the LibVNCServer package.
 
 %prep
 %setup -q -n libvncserver-LibVNCServer-0.9.12
+cd %{_builddir}/libvncserver-LibVNCServer-0.9.12
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1548884279
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1587678126
 mkdir -p clr-build
 pushd clr-build
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$FFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 %cmake ..
-make  %{?_smp_mflags} VERBOSE=1
+make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 cd clr-build; make test
 
 %install
-export SOURCE_DATE_EPOCH=1548884279
+export SOURCE_DATE_EPOCH=1587678126
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/LibVNCServer
-cp COPYING %{buildroot}/usr/share/package-licenses/LibVNCServer/COPYING
-cp webclients/novnc/vendor/pako/LICENSE %{buildroot}/usr/share/package-licenses/LibVNCServer/webclients_novnc_vendor_pako_LICENSE
+cp %{_builddir}/libvncserver-LibVNCServer-0.9.12/COPYING %{buildroot}/usr/share/package-licenses/LibVNCServer/ab8577d3eb0eedf3f98004e381a9cee30e7224e1
+cp %{_builddir}/libvncserver-LibVNCServer-0.9.12/webclients/novnc/vendor/pako/LICENSE %{buildroot}/usr/share/package-licenses/LibVNCServer/0ec1c971e17e06db17423a35a9dced8e1531665f
 pushd clr-build
 %make_install
 popd
@@ -123,5 +128,5 @@ popd
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/LibVNCServer/COPYING
-/usr/share/package-licenses/LibVNCServer/webclients_novnc_vendor_pako_LICENSE
+/usr/share/package-licenses/LibVNCServer/0ec1c971e17e06db17423a35a9dced8e1531665f
+/usr/share/package-licenses/LibVNCServer/ab8577d3eb0eedf3f98004e381a9cee30e7224e1
