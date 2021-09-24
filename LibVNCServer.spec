@@ -4,7 +4,7 @@
 #
 Name     : LibVNCServer
 Version  : 0.9.13
-Release  : 20
+Release  : 21
 URL      : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.13/libvncserver-0.9.13.tar.gz
 Source0  : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.13/libvncserver-0.9.13.tar.gz
 Summary  : No detailed summary available
@@ -12,12 +12,14 @@ Group    : Development/Tools
 License  : GPL-2.0
 Requires: LibVNCServer-lib = %{version}-%{release}
 Requires: LibVNCServer-license = %{version}-%{release}
+BuildRequires : SDL2-dev
 BuildRequires : buildreq-cmake
 BuildRequires : glibc-dev
 BuildRequires : gnutls-dev
 BuildRequires : gtk+-dev
 BuildRequires : libjpeg-turbo-dev
 BuildRequires : libpng-dev
+BuildRequires : lzo-dev
 BuildRequires : openssl-dev
 BuildRequires : pkg-config
 BuildRequires : pkgconfig(libsystemd)
@@ -67,14 +69,34 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1594422671
+export SOURCE_DATE_EPOCH=1632519475
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
-export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
-export FFLAGS="$FFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+%cmake ..
+make  %{?_smp_mflags}
+popd
+mkdir -p clr-build-avx2
+pushd clr-build-avx2
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=haswell -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=haswell -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=haswell -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -march=haswell -mprefer-vector-width=256 "
+export CFLAGS="$CFLAGS -march=haswell -m64"
+export CXXFLAGS="$CXXFLAGS -march=haswell -m64"
+export FFLAGS="$FFLAGS -march=haswell -m64"
+export FCFLAGS="$FCFLAGS -march=haswell -m64"
 %cmake ..
 make  %{?_smp_mflags}
 popd
@@ -85,12 +107,17 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 cd clr-build; make test
+cd ../clr-build-avx2;
+make test || :
 
 %install
-export SOURCE_DATE_EPOCH=1594422671
+export SOURCE_DATE_EPOCH=1632519475
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/LibVNCServer
 cp %{_builddir}/libvncserver-LibVNCServer-0.9.13/COPYING %{buildroot}/usr/share/package-licenses/LibVNCServer/ab8577d3eb0eedf3f98004e381a9cee30e7224e1
+pushd clr-build-avx2
+%make_install_avx2  || :
+popd
 pushd clr-build
 %make_install
 popd
@@ -107,6 +134,8 @@ popd
 /usr/include/rfb/rfbproto.h
 /usr/include/rfb/rfbregion.h
 /usr/include/rfb/threading.h
+/usr/lib64/haswell/libvncclient.so
+/usr/lib64/haswell/libvncserver.so
 /usr/lib64/libvncclient.so
 /usr/lib64/libvncserver.so
 /usr/lib64/pkgconfig/libvncclient.pc
@@ -114,6 +143,10 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/haswell/libvncclient.so.0.9.13
+/usr/lib64/haswell/libvncclient.so.1
+/usr/lib64/haswell/libvncserver.so.0.9.13
+/usr/lib64/haswell/libvncserver.so.1
 /usr/lib64/libvncclient.so.0.9.13
 /usr/lib64/libvncclient.so.1
 /usr/lib64/libvncserver.so.0.9.13
