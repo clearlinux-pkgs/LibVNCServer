@@ -4,7 +4,7 @@
 #
 Name     : LibVNCServer
 Version  : 0.9.13
-Release  : 23
+Release  : 24
 URL      : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.13/libvncserver-0.9.13.tar.gz
 Source0  : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.13/libvncserver-0.9.13.tar.gz
 Summary  : No detailed summary available
