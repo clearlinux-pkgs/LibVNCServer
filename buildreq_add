@@ -2,3 +2,4 @@
 # picked up automatically. One name per line, no whitespace.
 lzo-dev
 SDL2-dev
+libssh2-dev
