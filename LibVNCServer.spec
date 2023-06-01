@@ -5,7 +5,7 @@
 #
 Name     : LibVNCServer
 Version  : 0.9.14
-Release  : 36
+Release  : 37
 URL      : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.14/libvncserver-0.9.14.tar.gz
 Source0  : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.14/libvncserver-0.9.14.tar.gz
 Summary  : No detailed summary available
@@ -74,7 +74,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1683051507
+export SOURCE_DATE_EPOCH=1685634272
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -116,7 +116,7 @@ cd ../clr-build-avx2;
 make test || :
 
 %install
-export SOURCE_DATE_EPOCH=1683051507
+export SOURCE_DATE_EPOCH=1685634272
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/LibVNCServer
 cp %{_builddir}/libvncserver-LibVNCServer-%{version}/COPYING %{buildroot}/usr/share/package-licenses/LibVNCServer/ab8577d3eb0eedf3f98004e381a9cee30e7224e1 || :
@@ -133,8 +133,6 @@ popd
 
 %files dev
 %defattr(-,root,root,-)
-/V3/usr/lib64/libvncclient.so
-/V3/usr/lib64/libvncserver.so
 /usr/include/rfb/keysym.h
 /usr/include/rfb/rfb.h
 /usr/include/rfb/rfbclient.h
@@ -154,9 +152,7 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /V3/usr/lib64/libvncclient.so.0.9.14
-/V3/usr/lib64/libvncclient.so.1
 /V3/usr/lib64/libvncserver.so.0.9.14
-/V3/usr/lib64/libvncserver.so.1
 /usr/lib64/libvncclient.so.0.9.14
 /usr/lib64/libvncclient.so.1
 /usr/lib64/libvncserver.so.0.9.14
