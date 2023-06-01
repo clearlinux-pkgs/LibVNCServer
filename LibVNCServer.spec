@@ -5,7 +5,7 @@
 #
 Name     : LibVNCServer
 Version  : 0.9.14
-Release  : 37
+Release  : 38
 URL      : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.14/libvncserver-0.9.14.tar.gz
 Source0  : https://github.com/LibVNC/libvncserver/archive/LibVNCServer-0.9.14/libvncserver-0.9.14.tar.gz
 Summary  : No detailed summary available
@@ -74,7 +74,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1685634272
+export SOURCE_DATE_EPOCH=1685646974
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -116,7 +116,7 @@ cd ../clr-build-avx2;
 make test || :
 
 %install
-export SOURCE_DATE_EPOCH=1685634272
+export SOURCE_DATE_EPOCH=1685646974
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/LibVNCServer
 cp %{_builddir}/libvncserver-LibVNCServer-%{version}/COPYING %{buildroot}/usr/share/package-licenses/LibVNCServer/ab8577d3eb0eedf3f98004e381a9cee30e7224e1 || :
